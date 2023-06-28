@@ -4,6 +4,7 @@ function FollowMouse() {
   const [enabled, setEnabled] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
+  // UseEffect para pointermove
   useEffect(() => {
     console.log("effect ", { enabled });
 
@@ -24,6 +25,20 @@ function FollowMouse() {
       window.removeEventListener("pointermove", handleMove);
     };
   }, [enabled]);
+
+  // UseEffect para desaparecer cursor
+  useEffect(() => {
+    document.body.classList.toggle('no-cursor', enabled); // toggle permite cada vez que se ejecute cambiar de estado la 
+          //visibilidad del elemento HTML, es decir si está visible pasa a oculto y si se encuentra oculto pasa a visible.
+
+    return() =>{
+      document.body.classList.remove('no-cursor');
+    }
+  },[enabled])
+
+  // [] -> solo se ejecuta una vez cuando se monta el componente
+  // [enabled] -> se ejecuta cuando cambia enabled y cuando se monta el componente
+  // undefined -> se ejecuta cada vez que se renderiza el componente
 
   return (
     <>
