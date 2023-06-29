@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
-const CAT_ENDPOINT_RANDOM_FACT_URL = `https://catfact.ninja/fact`;
+
 const CAT_PREFIJO_IMG_URL = `https://cataas.com`;
 
 function App() {
@@ -17,20 +17,7 @@ function App() {
   //   getRandomFact()
   // }, [])
 
-  useEffect(() => {
-    fetch(CAT_ENDPOINT_RANDOM_FACT_URL)
-      .then((res) => {
-        if (!res.ok) throw new Error("Error en el fetching fact"); // Si aparece un error en la respuesta
-        return res.json();
-      })
-      .then((data) => {
-        const { fact } = data;
-        setFact(fact);
-      })
-      .catch((err) => {
-        // para probelmas en la petición
-      })
-  }, []);
+  useEffect(getRandomFact, []); // Renderizamos el randomFact desde la primer inicialización. 
 
   useEffect(() => {
     if (!fact) return; // Si el fact es vacio como está inicializado, no haga nada.
@@ -47,10 +34,15 @@ function App() {
       });
   }, [fact]);
 
+  const handleClick = () => {
+    getRandomFact();
+  };
+
   return (
     <>
       <main className="main">
         <h1>App de Gatitos</h1>
+        <button onClick={handleClick}>Get a new Fact</button>
         <section>
           {fact && <p>{fact}</p>}
           {imageUrl && (
