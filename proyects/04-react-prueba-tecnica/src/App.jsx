@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import { getRandomFact } from "./services/facts";
 
 
 const CAT_PREFIJO_IMG_URL = `https://cataas.com`;
@@ -17,7 +18,9 @@ function App() {
   //   getRandomFact()
   // }, [])
 
-  useEffect(getRandomFact, []); // Renderizamos el randomFact desde la primer inicialización. 
+  useEffect(() => {
+    getRandomFact().then(newFact => setFact(newFact)); // Se puede pasar sin la función completa then(setFact)
+  }, []); // Renderizamos el randomFact desde la primer inicialización. 
 
   useEffect(() => {
     if (!fact) return; // Si el fact es vacio como está inicializado, no haga nada.
@@ -34,8 +37,9 @@ function App() {
       });
   }, [fact]);
 
-  const handleClick = () => {
-    getRandomFact();
+  const handleClick = async () => {
+    const newFact = await getRandomFact();
+    setFact(newFact);
   };
 
   return (
