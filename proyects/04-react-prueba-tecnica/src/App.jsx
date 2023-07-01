@@ -1,45 +1,14 @@
-import { useEffect, useState } from "react";
 import "./App.css";
-import { getRandomFact } from "./services/facts";
 
-
-const CAT_PREFIJO_IMG_URL = `https://cataas.com`;
+import { useCatImg } from "./hooks/useCatImg";
+import { useCatFact } from "./hooks/useCatFact";
 
 function App() {
-  const [fact, setFact] = useState();
-  const [imageUrl, setImageUrl] = useState();
-
-  // useEffect(()=>{
-  //   async function getRandomFact() {
-  //     const res = await fetch(CAT_ENDPOINT_RANDOM_FACT_URL)
-  //     const data = await res.json()
-  //     setFact(data.fact)
-  //   }
-  //   getRandomFact()
-  // }, [])
-
-  useEffect(() => {
-    getRandomFact().then(newFact => setFact(newFact)); // Se puede pasar sin la función completa then(setFact)
-  }, []); // Renderizamos el randomFact desde la primer inicialización. 
-
-  useEffect(() => {
-    if (!fact) return; // Si el fact es vacio como está inicializado, no haga nada.
-
-    const threeFirstWords = fact.split(" ", 3).join(" "); // buscar con mdn en gooogle. Separador de string, segundo parámetro, cuantas palabras quiero guardar
-
-    fetch(
-      `https://cataas.com/cat/says/${threeFirstWords}?size=50&color=red&json=true`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        const { url } = data;
-        setImageUrl(url);
-      });
-  }, [fact]);
+  const {fact, refreshFact} = useCatFact();
+  const { imageUrl } = useCatImg({ fact });
 
   const handleClick = async () => {
-    const newFact = await getRandomFact();
-    setFact(newFact);
+    refreshFact()
   };
 
   return (
@@ -51,7 +20,7 @@ function App() {
           {fact && <p>{fact}</p>}
           {imageUrl && (
             <img
-              src={`${CAT_PREFIJO_IMG_URL}${imageUrl}`}
+              src={imageUrl}
               alt={`img de gatos con las primeras 3 palabras de: ${fact
                 .split(" ", 3)
                 .join(" ")}`}
@@ -64,3 +33,12 @@ function App() {
 }
 
 export default App;
+
+// useEffect(()=>{
+//   async function getRandomFact() {
+//     const res = await fetch(CAT_ENDPOINT_RANDOM_FACT_URL)
+//     const data = await res.json()
+//     setFact(data.fact)
+//   }
+//   getRandomFact()
+// }, [])
