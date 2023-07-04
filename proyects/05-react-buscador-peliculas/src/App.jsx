@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import { Movies } from "./components/Movies";
 import { useMovies } from "./hooks/useMovies";
+import { useSearch } from "./hooks/useSearch";
+
 
 function App() {
   const { movies } = useMovies();
-  const [query, setQuery] = useState('');
-  const [error, setError] = useState('');
+  const {query, setQuery, error} = useSearch()
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -15,23 +16,11 @@ function App() {
 
   const handleChange = (event) => {
     const inputValue = event.target.value;
-    if (inputValue.startsWith(" ")) return;
+    if (inputValue.startsWith(" ")) return; // ese return devuelve undefined
     setQuery(inputValue);
-
-    if (inputValue === " ") {
-      setError("No se puede realizar una búsqueda vacía");
-      return; // Para que no siga ejecutándose
-    }
-    if (inputValue.length < 3) {
-      setError("La búsqueda debe ser como mínimo de 3 carácteres");
-      return;
-    }
-    if (inputValue.match(/^\d+$/)) {
-      setError("No se puede buscar sólo números");
-      return;
-    }
-    setError(null);
   };
+
+  
 
   return (
     <>
