@@ -3,8 +3,37 @@
     flex-direction: column;
     justify-content: center;
     text-align: center;
+    width: 100%;
+    max-width: 1200px;
+}
+.main{
+    width: 100%;
 }
 .form{
     display: flex;
     justify-content: center;
+}
+
+.movies{
+    list-style: none;
+    padding: 0;
+    margin-top: 8%;
+
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    gap: 32px; /*Separación 'entre' elementos*/
+}
+
+.movie h3, .movie p {
+    margin: 0;
+}
+
+.movie{
+    text-align: center;
+}
+
+.movie img{
+    border-radius: 8px;
+    margin-top: 16px;
 }
