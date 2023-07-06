@@ -6,12 +6,12 @@ import { useSearch } from "./hooks/useSearch";
 
 
 function App() {
-  const { movies } = useMovies();
   const {query, setQuery, error} = useSearch()
+  const { movies, getMovies } = useMovies({query});
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log({ query });
+    getMovies()
   };
 
   const handleChange = (event) => {
