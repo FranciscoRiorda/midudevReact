@@ -1,17 +1,15 @@
-import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import { Movies } from "./components/Movies";
 import { useMovies } from "./hooks/useMovies";
 import { useSearch } from "./hooks/useSearch";
 
-
 function App() {
-  const {query, setQuery, error} = useSearch()
-  const { movies, getMovies } = useMovies({query});
+  const { query, setQuery, error } = useSearch();
+  const { movies, loading, getMovies } = useMovies({ query });
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    getMovies()
+    getMovies();
   };
 
   const handleChange = (event) => {
@@ -19,8 +17,6 @@ function App() {
     if (inputValue.startsWith(" ")) return; // ese return devuelve undefined
     setQuery(inputValue);
   };
-
-  
 
   return (
     <>
@@ -36,14 +32,14 @@ function App() {
               onChange={handleChange}
               name="queryFilm"
               value={query}
-              placeholder="Avangers, Star Wars, The Matrix..."
+              placeholder="Avengers, Star Wars, The Matrix..."
             />
             <button type="submit">Buscar</button>
           </form>
           {error && <p style={{ color: "red" }}>{error}</p>}
         </header>
         <main>
-          <Movies movies={movies} />
+          {loading ? <p>Cargando..</p> : <Movies movies={movies} />}
         </main>
       </div>
     </>
