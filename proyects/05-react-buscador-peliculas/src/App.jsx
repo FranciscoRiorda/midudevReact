@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./App.css";
 import { Movies } from "./components/Movies";
 import { useMovies } from "./hooks/useMovies";
 import { useSearch } from "./hooks/useSearch";
+import debounce from "just-debounce-it";
 
 function App() {
   const [sort, setSort] = useState(false);
@@ -10,24 +11,27 @@ function App() {
   const { query, setQuery, error } = useSearch();
   const { movies, loading, getMovies } = useMovies({ query, sort });
 
+  const debouncedGerMovies = useCallback(
+    debounce((query) => {
+      getMovies({ query });
+    }, 300),
+    [getMovies]);
+
   const handleSort = () => {
     setSort(!sort);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    getMovies({query});
+    getMovies({ query });
   };
 
   const handleChange = (event) => {
-    const inputValue = event.target.value;
-    if (inputValue.startsWith(" ")) return; // ese return devuelve undefined
-    setQuery(inputValue);
+    const newSearch = event.target.value;
+    if (newSearch.startsWith(" ")) return; // ese return devuelve undefined
+    setQuery(newSearch);
+    debouncedGerMovies(newSearch); // realizar busqueda cuando escribimos
   };
-
-  useEffect(() => {
-    console.log("getMovies");
-  }, [getMovies]);
 
   return (
     <>
