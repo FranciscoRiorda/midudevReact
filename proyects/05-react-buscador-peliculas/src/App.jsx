@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import { Movies } from "./components/Movies";
 import { useMovies } from "./hooks/useMovies";
@@ -16,7 +16,7 @@ function App() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    getMovies();
+    getMovies({query});
   };
 
   const handleChange = (event) => {
@@ -24,6 +24,10 @@ function App() {
     if (inputValue.startsWith(" ")) return; // ese return devuelve undefined
     setQuery(inputValue);
   };
+
+  useEffect(() => {
+    console.log("getMovies");
+  }, [getMovies]);
 
   return (
     <>

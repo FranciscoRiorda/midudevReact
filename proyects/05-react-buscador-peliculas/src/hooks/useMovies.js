@@ -7,23 +7,25 @@ export function useMovies({ query, sort }) {
   const [error, setError] = useState(null);
   const previousSearch = useRef(query);
 
-  const getMovies = async () => {
-    if (query === previousSearch.current) return;
-    try {
-      setLoading(true);
-      setError(null);
-      previousSearch.current = query;
-      const newMovies = await searchMovies({ query });
-      setMovies(newMovies);
-    } catch (e) {
-      setError(e.message);
-    } finally {
-      //Se ejecuta tanto si pasa por el try como por el catch
-      setLoading(false);
-    }
-  };
+  const getMovies = useMemo(() => { // Este useMemo sirve para no ejecutar getMovies cada vez que se cambia el sort en el buscador. Para guardar un valor cuando esa dependencia cambie.
+    return async ({query}) => {
+      if (query === previousSearch.current) return;
+      try {
+        setLoading(true);
+        setError(null);
+        previousSearch.current = query;
+        const newMovies = await searchMovies({ query });
+        setMovies(newMovies);
+      } catch (e) {
+        setError(e.message);
+      } finally {
+        //Se ejecuta tanto si pasa por el try como por el catch
+        setLoading(false);
+      }
+    };
+  },[]) 
 
-  const sortedMovies = useMemo(() => { //useMemo para guardar/memorizar algún elemento
+  const sortedMovies = useMemo(() => { //useMemo para guardar/memorizar algún elemento. No usar siempre, en cosas simple hacer calculo directamente
     return sort
       ? [...movies].sort((a, b) => a.title.localeCompare(b.title))
       : movies;
