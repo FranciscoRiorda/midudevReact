@@ -49,8 +49,9 @@ function App() {
               value={query}
               placeholder="Avengers, Star Wars, The Matrix..."
             />
-            <input type="checkbox" onClick={handleSort} checked={sort}></input>
             <button type="submit">Buscar</button>
+            <input type="checkbox" onClick={handleSort} checked={sort}></input>
+            <label>Ordenar</label>
           </form>
           {error && <p style={{ color: "red" }}>{error}</p>}
         </header>
