@@ -25,3 +25,11 @@ Primera iteración:
 ✅ Haz que la búsqueda se haga automáticamente al escribir.
 
 ✅ Evita que se haga la búsqueda continuamente al escribir (debounce) (Dejas de realizar búsqueda hasta que el usuario deje de escribir por un corto período de tiempo)
+
+## Trabajado
+
+Uso de hooks:
+ - useCallback
+ - useMemo
+ - custom hooks
+ - Servicios, conexión con API
