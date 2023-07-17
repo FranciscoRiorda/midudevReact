@@ -18,5 +18,5 @@
 ### Trabajado:
    - useContext
    - useReduce
-   - useId
+   - useId (Identificador único que no va a cambiar)
    - Filtros
