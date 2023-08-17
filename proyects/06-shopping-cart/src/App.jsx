@@ -5,6 +5,7 @@ import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { useFilters } from "./hooks/useFilter";
 import { Cart } from "./components/Cart";
+import { CartProvider } from "./contexts/cartContext";
 
 function App() {
   const [products] = useState(initialProducts);
@@ -13,12 +14,12 @@ function App() {
   const filtaredProducts = filterProducts(products);
 
   return (
-    <>
-      <Cart />
+    <CartProvider>
       <Header />
+      <Cart />
       <Products products={filtaredProducts} />
       <Footer />
-    </>
+    </CartProvider>
   );
 }
 
