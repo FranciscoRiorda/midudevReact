@@ -12,9 +12,9 @@ export function Footer() {
       <h4>
         Prueba técnica de React ⚛️ － <span>@franriorda</span>
       </h4>
-      {/* <h5>Shopping Cart con useContext & useReducer</h5> */}
-      {IS_DEVELOMENT && JSON.stringify(filters, null, 2)}
-      {IS_DEVELOMENT && JSON.stringify(cart, null, 2)}
+      <h5>Shopping Cart con useContext & useReducer</h5>
+      {/* {IS_DEVELOMENT && JSON.stringify(filters, null, 2)}
+      {IS_DEVELOMENT && JSON.stringify(cart, null, 2)} */}
     </footer>
   );
 }
